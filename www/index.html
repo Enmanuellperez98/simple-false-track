@@ -48,28 +48,34 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script>
     function initMap(){
+        //Center Map
         let start = { lat: 18.53452, lng: -69.905362 }
 
         let map = new google.maps.Map(document.querySelector('#map'),{
             center: start,
-            // center:{lat: 18.486057499999998,lng: -69.93121169999999},
             zoom:19
         })
 
-
-        let i = 0
+        //First Point
         let init = new google.maps.Marker({
             position:start,
             map:map,
             title:'My Position!'
         });
+        
+        //User marker
         let marker = new google.maps.Marker({
             position:start,
             map:map,
             title:'My Position!'
         });
+        
+        let i = 0;
+        getCurrentPosition();
 
+        //Simulating navigator geolocation
         function getCurrentPosition(){
+            //False way
             let way = [
                 {lat: 18.53452,lng: -69.905362},
                 {lat: 18.534512,lng: -69.905408},
@@ -83,15 +89,22 @@
                 {lat: 18.535245,lng: -69.90608},
             ]
             
+            //Settings
             i++;
             if(!way[i+1])return;
+
             setTimeout(()=>{
+                //Removing old marker
                 marker.setMap(null)
+
+                //Adding new marker for current user position
                 marker = new google.maps.Marker({
                     position: way[i + 1],
                     map: map,
                     title: 'My Position!'
                 });
+
+                //<<Drawing line
                     let pathOnMap = new google.maps.Polyline({
                        path:[way[i],way[i+1]],
                        geodesic:true,
@@ -99,11 +112,12 @@
                        strokeOpacity:1.0,
                        strokeWeight:8
                    })
-                   getCurrentPosition()
-                   pathOnMap.setMap(map)
-            },1000* +(Math.random() * 2).toFixed(0))
+                   pathOnMap.setMap(map);
+                //>>
+                
+                getCurrentPosition()
+            },1000* /*Ramdon time*/ +(Math.random() * 2).toFixed(0))
         }
-        getCurrentPosition()
 
     }
     </script>
